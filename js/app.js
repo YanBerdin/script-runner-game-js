@@ -31,16 +31,21 @@ var app = {
         divCellRow.append(divCell);
       }
     }
-  },
-
-  moveForward: function (Event) {
-    // Selectionner la case départ divStart
     let divStart = document.querySelector("#raw1 div:nth-child(1)");
     divStart.classList.add("cellStart");
 
     console.log(divStart);
 
+    let divEnd = document.querySelector("#raw4 div:nth-child(6)");
+    divEnd.classList.add("cellEnd");
+    console.log(divEnd);
 
+
+
+  },
+
+  moveForward: function (Event) {
+    // Selectionner la case départ divStart
   },
 
   handleLaunchScriptButton: function () {
