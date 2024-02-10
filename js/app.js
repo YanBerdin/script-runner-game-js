@@ -20,18 +20,15 @@ const app = {
 
     app.randomStart();
     app.randomEnd();
-
     app.initGame();
-
     // app.turnLeft();
-
     // app.moveForward();
-
     // app.turnRight();
     app.drawBoard();
     //  app.moveForward();
-    //TODO Event listeners
-    // document.getElementById('launchScript').addEventListener('click', app.handleLaunchScriptButton);
+   
+    // au click sur le bouton "Lancer le script" => exécuter `handleLaunchScriptButton()
+    document.getElementById("launchScript").addEventListener("click", app.handleLaunchScriptButton);
   },
 
   randomStart: function () {
@@ -53,6 +50,66 @@ const app = {
       col: app.start.col,
     };
     app.direction = "right"; // top, right, bottom, left
+  },
+  // TODO
+  handleLaunchScriptButton: function () {
+    console.log("bouton cliqué");
+
+// Récupérer saisie utilisateur
+// split("\n")  divise la string en un Array de sous-chaînes,
+// avec retour de ligne ("\n") comme séparateur
+// Ligne de commande = 1 ligne dans le tableau
+let codeLines = document.getElementById('userCode').value.split("\n");
+
+    //? La fonction JS `window.setTimeout()` :
+    //? => permet de définir une fonction à exécuter après un certain délai en millisecondes
+    //? la fonction anonyme passée en paramètre de window.setTimeout()
+    //?  sera exécutée après un délai de 2000 millisecondes
+    window.setTimeout(function () {
+      app.codeLineLoop(codeLines, 0);
+      console.log("timeOut handleLaunchScriptButton() terminé");
+    }, 2000); // => 2secondes
+  },
+
+  //? La fonction codeLineLoop() prend 2 paramètres :
+  //? un tableau de lignes de code et un index.
+  codeLineLoop: function (codeLines, index) {
+    //? La fonction commence par récupérer la ligne de code actuelle
+    //? à partir du tableau de lignes de code en utilisant l’index fourni.
+    // Getting currentLine
+
+    let currentLine = codeLines[index];
+    console.log(currentLine);
+
+    //? Ensuite, elle incrémente l’index pour passer à la ligne suivante.
+    // Increment
+    index++;
+
+    //? Si la fin du tableau de lignes de code n’est pas atteinte,
+    // if still a line to interpret
+    if (index < codeLines.length) {
+      //? la fonction appelle app.codeLineLoop() avec un délai de 1000 millisecondes (= 1 sec)
+      //? Cela permet d’interpréter chaque ligne de code une par une
+      //? avec un délai d’une seconde entre chaque ligne.
+      // Recall same method (=> make a loop)
+      window.setTimeout(function () {
+        app.codeLineLoop(codeLines, index);
+      }, 1000);
+      //? Si la fin du tableau de lignes de code est atteinte,
+      //? la fonction appelle checkSuccess() après un délai d’1 seconde.
+    } else {
+      window.setTimeout(function () {
+        app.checkSuccess();
+      }, 1000);
+    }
+  },
+
+  //? Cette fonction permet d’interpréter chaque ligne de code d’un tableau
+  //? une par une avec un délai d’une seconde entre chaque ligne
+  //? et d’appeler checkSuccess() à la fin .
+
+  checkSuccess: function () {
+    // TODO display if the game is won or not
   },
 
   drawBoard: function () {
@@ -195,62 +252,6 @@ const app = {
         app.direction = "left";
         break;
     }
-  },
-
-  handleLaunchScriptButton: function () {
-    // TODO
-
-    // TODO : get all lines as an array
-
-    //? La fonction `window.setTimeout()` est une fonction JavaScript :
-    //? => permet de définir une fonction à exécuter après un certain délai en millisecondes
-    //? la fonction anonyme passée en paramètre de window.setTimeout()
-    //?  sera exécutée après un délai de 2000 millisecondes (soit 2 secondes)
-    window.setTimeout(function () {
-      app.codeLineLoop(codeLines, 0);
-    }, 2000); // => 2secondes
-  },
-
-  //? La fonction codeLineLoop() est une fonction personnalisée
-  //? qui prend 2 paramètres :
-  //? un tableau de lignes de code et un index.
-
-  codeLineLoop: function (codeLines, index) {
-    //? La fonction commence par récupérer la ligne de code actuelle
-    //? à partir du tableau de lignes de code en utilisant l’index fourni.
-    // Getting currentLine
-    let currentLine = codeLines[index];
-    console.log(currentLine);
-
-    //? Ensuite, elle incrémente l’index pour passer à la ligne suivante.
-    // Increment
-    index++;
-
-    //? Si la fin du tableau de lignes de code n’est pas atteinte,
-    // if still a line to interpret
-    if (index < codeLines.length) {
-      //? la fonction appelle app.codeLineLoop() avec un délai de 1000 millisecondes (= 1 sec)
-      //? Cela permet d’interpréter chaque ligne de code une par une
-      //? avec un délai d’une seconde entre chaque ligne.
-      // Recall same method (=> make a loop)
-      window.setTimeout(function () {
-        app.codeLineLoop(codeLines, index);
-      }, 1000);
-      //? Si la fin du tableau de lignes de code est atteinte,
-      //? la fonction appelle checkSuccess() après un délai d’1 seconde.
-    } else {
-      window.setTimeout(function () {
-        app.checkSuccess();
-      }, 1000);
-    }
-  },
-
-  //? Cette fonction permet d’interpréter chaque ligne de code d’un tableau
-  //? une par une avec un délai d’une seconde entre chaque ligne
-  //? et d’appeler checkSuccess() à la fin .
-
-  checkSuccess: function () {
-    // TODO display if the game is won or not
   },
 };
 
