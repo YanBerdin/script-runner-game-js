@@ -1,51 +1,200 @@
-var app = {
+const app = {
+  nbRows: 4,
+  nbCols: 6,
+
+  start: {
+    row: 1,
+    col: 1,
+  },
+  end: {
+    row: 6,
+    col: 6,
+  },
+
+  current: null,
+
+  //TODO delay: 500,
+
   init: function () {
     console.log("init");
 
-    // TODO
-    app.drawBoard();
+    app.randomStart();
+    app.randomEnd();
 
-    // Event listeners - TODO
+    app.initGame();
+
+    // app.turnLeft();
+
+    // app.moveForward();
+
+    // app.turnRight();
+    app.drawBoard();
+    //  app.moveForward();
+    //TODO Event listeners
+    // document.getElementById('launchScript').addEventListener('click', app.handleLaunchScriptButton);
+  },
+
+  randomStart: function () {
+    app.start.row = 1;
+    app.start.col = 1;
+    // app.start.row = Math.floor(Math.random() * Math.floor(app.nbRows)) + 1;
+    // app.start.col = Math.floor(Math.random() * Math.floor(app.nbCols)) + 1;
+  },
+  randomEnd: function () {
+    app.end.row = 4;
+    app.end.col = 6;
+    // app.end.row = Math.floor(Math.random() * Math.floor(app.nbRows)) + 1;
+    // app.end.col = Math.floor(Math.random() * Math.floor(app.nbCols)) + 1;
+  },
+
+  initGame: function () {
+    app.current = {
+      row: app.start.row,
+      col: app.start.col,
+    };
+    app.direction = "right"; // top, right, bottom, left
   },
 
   drawBoard: function () {
     console.log("Hello drawboard()");
 
-    let boardElement = document.querySelector("#board");
+    // Récupérer <div> déstinée à afficher le Board
+    const boardElement = document.querySelector("#board");
+    // Efface le contenu précédent
+    boardElement.innerHTML = "";
+    // console.log(boardElement);
 
-    console.log(boardElement);
+    let rawDiv;
+    let divCell;
 
-    for (let i = 1; i <= 4; i++) {
-      let divCellRow = document.createElement("div");
-      divCellRow.classList.add("cellRow");
-      divCellRow.id = "raw" + i;
+    // Pour chaque ligne (x4), un élément <div> est créé
+    // <div class="cellRow" id="raw1"></div>
+    for (let i = 1; i <= app.nbRows; i++) {
+      rawDiv = document.createElement("div");
+      rawDiv.classList.add("cellRow");
+      // Attriubuer id raw1 raw2 raw3 raw4
+      rawDiv.id = "raw" + i;
 
-      console.log(divCellRow);
+      console.log(rawDiv);
 
-      boardElement.append(divCellRow);
+      //TODO
+      // boardElement.append(rawDiv);
 
-      for (let index = 1; index <= 6; index++) {
-        let divCell = document.createElement("div");
+      // Pour chaque <div> crée y insérer 6 cellules
+      // <div class="cell"><div>
+      for (let index = 1; index <= app.nbCols; index++) {
+        divCell = document.createElement("div");
         divCell.classList.add("cell");
+        divCell.classList.add("cell" + index);
 
-        divCellRow.append(divCell);
+        // if start
+        if (i == app.start.row && index == app.start.col) {
+          divCell.classList.add("cellStart");
+        }
+        // if end
+        if (i == app.end.row && index == app.end.col) {
+          divCell.classList.add("cellEnd");
+        }
+        // if current
+        if (i == app.current.row && index == app.current.col) {
+          // current
+          divCell.classList.add("cellCurrent");
+
+          // direction
+          divCell.classList.add("cellCurrent-" + app.direction);
+        }
+
+        rawDiv.append(divCell);
       }
+      boardElement.append(rawDiv);
     }
-    let divStart = document.querySelector("#raw1 div:nth-child(1)");
-    divStart.classList.add("cellStart");
-
-    console.log(divStart);
-
-    let divEnd = document.querySelector("#raw4 div:nth-child(6)");
-    divEnd.classList.add("cellEnd");
-    console.log(divEnd);
-
-
-
   },
 
-  moveForward: function (Event) {
-    // Selectionner la case départ divStart
+  moveForward: function () {
+    // case départ divStart
+    switch (app.direction) {
+      case "left":
+        // Colonne de la position actuelle décrémentée de 1
+        app.current.col--;
+        break;
+      case "right":
+        // Colonne de la position actuelle incrémentée
+        app.current.col++;
+        break;
+      case "top":
+        // Ligne de la position actuelle décrémentée
+        app.current.row--;
+        break;
+      case "bottom":
+        // Ligne de la position actuelle incrémentée
+        app.current.row++;
+        break;
+      default:
+        console.log("direction unknown : " + app.direction);
+    }
+
+    // Hors limite => return false
+    // 1ere ligne
+    if (app.current.row < 1) {
+      // Ligne réinitialisée à 1
+      app.current.row = 1;
+      console.log("out 1");
+      return false;
+    }
+    // derniere ligne
+    else if (app.current.row > app.nbRows) {
+      // ligne réinitialisée au nbr de lignes maximum valide
+      app.current.row = app.nbRows;
+      console.log("out 2");
+      return false;
+    }
+    // 1ere colonne
+    else if (app.current.col < 1) {
+      // Colonne réinitialisée à 1
+      app.current.col = 1;
+      console.log("out 3");
+      return false;
+    }
+    // Derniere colonne
+    else if (app.current.col > app.nbCols) {
+      // Colonne réinitialisée au nbr de colonnes maximum valide
+      app.current.col = app.nbCols;
+      console.log("out 4");
+      return false;
+    }
+    return true;
+  },
+  turnLeft: function () {
+    switch (app.direction) {
+      case "left":
+        app.direction = "bottom";
+        break;
+      case "right":
+        app.direction = "top";
+        break;
+      case "top":
+        app.direction = "left";
+        break;
+      case "bottom":
+        app.direction = "right";
+        break;
+    }
+  },
+  turnRight: function () {
+    switch (app.direction) {
+      case "left":
+        app.direction = "top";
+        break;
+      case "right":
+        app.direction = "bottom";
+        break;
+      case "top":
+        app.direction = "right";
+        break;
+      case "bottom":
+        app.direction = "left";
+        break;
+    }
   },
 
   handleLaunchScriptButton: function () {
@@ -70,7 +219,7 @@ var app = {
     //? La fonction commence par récupérer la ligne de code actuelle
     //? à partir du tableau de lignes de code en utilisant l’index fourni.
     // Getting currentLine
-    var currentLine = codeLines[index];
+    let currentLine = codeLines[index];
     console.log(currentLine);
 
     //? Ensuite, elle incrémente l’index pour passer à la ligne suivante.
