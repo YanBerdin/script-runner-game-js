@@ -59,7 +59,7 @@ body {
 }
 
 .cellCurrent::after {
-  content: '>';
+  content: ">";
   color: red;
 }
 
@@ -77,4 +77,13 @@ body {
 
 .cellCurrent-right {
   transform: rotate(0deg);
+}
+
+.error {
+  min-width: 70%;
+  text-align: center;
+  padding: 0.8rem;
+  background-color: papayawhip;
+
+  /* color: greenyellow; */
 }

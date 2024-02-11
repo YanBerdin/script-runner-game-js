@@ -26,9 +26,11 @@ const app = {
     // app.turnRight();
     app.drawBoard();
     //  app.moveForward();
-   
+
     // au click sur le bouton "Lancer le script" => exécuter `handleLaunchScriptButton()
-    document.getElementById("launchScript").addEventListener("click", app.handleLaunchScriptButton);
+    document
+      .getElementById("launchScript")
+      .addEventListener("click", app.handleLaunchScriptButton);
   },
 
   randomStart: function () {
@@ -55,53 +57,116 @@ const app = {
   handleLaunchScriptButton: function () {
     console.log("bouton cliqué");
 
-// Récupérer saisie utilisateur
-// split("\n")  divise la string en un Array de sous-chaînes,
-// avec retour de ligne ("\n") comme séparateur
-// Ligne de commande = 1 ligne dans le tableau
-let codeLines = document.getElementById('userCode').value.split("\n");
+    let errorMessage = "";
+
+    // Récupérer saisie utilisateur
+    //? split("\n")  divise la string en un Array de sous-chaînes,
+    // avec retour de ligne ("\n") comme séparateur
+    // 1 ligne de commande = 1 ligne dans le tableau
+    // let codeLines = document.getElementById("userCode").value.split("\n");
+
+    //? Filter les lignes vides (Touche "Entrée" après instruction )
+    let userCode = document.getElementById("userCode").value;
+    let codeLines = userCode.split("\n").filter((line) => line.trim() !== "");
+
+    // Vérifier si le tableau de lignes de code est vide
+    if (codeLines.length === 0) {
+      console.log("Le script est vide. Empêcher la soumission.");
+      // alert("Saisir un script avant de lancer !");
+      errorMessage += "Saisir un script avant de lancer !";
+      document.getElementById("errorMessages").textContent = " Le script ne peut être vide avant de lancer ! ";
+      return; // Ne pas soumettre le formulaire
+    }
+
+    // Initialiser le jeu et afficher le plateau
+    app.initGame();
+    app.drawBoard();
+    document.getElementById("errorMessages").textContent = "";
 
     //? La fonction JS `window.setTimeout()` :
-    //? => permet de définir une fonction à exécuter après un certain délai en millisecondes
-    //? la fonction anonyme passée en paramètre de window.setTimeout()
-    //?  sera exécutée après un délai de 2000 millisecondes
+    //? => Définit une fonction à exécuter après un délai en millisecondes
+    // la fonction anonyme passée en paramètre de window.setTimeout()
+    //  sera exécutée après un délai de 2000 millisecondes
     window.setTimeout(function () {
       app.codeLineLoop(codeLines, 0);
       console.log("timeOut handleLaunchScriptButton() terminé");
-    }, 2000); // => 2secondes
+    }, 500); // => 1secondes //TODO app.delay
   },
 
   //? La fonction codeLineLoop() prend 2 paramètres :
-  //? un tableau de lignes de code et un index.
+  //  un tableau de lignes de code et un index.
   codeLineLoop: function (codeLines, index) {
+    let errorMessage = "";
+
     //? La fonction commence par récupérer la ligne de code actuelle
     //? à partir du tableau de lignes de code en utilisant l’index fourni.
     // Getting currentLine
+    // let currentLine = codeLines[index];
+    // console.log(currentLine);
 
-    let currentLine = codeLines[index];
+    let currentLine = codeLines[index].trim();
     console.log(currentLine);
 
-    //? Ensuite, elle incrémente l’index pour passer à la ligne suivante.
-    // Increment
-    index++;
+    let continueReading = app.interpretLine(currentLine);
 
-    //? Si la fin du tableau de lignes de code n’est pas atteinte,
-    // if still a line to interpret
-    if (index < codeLines.length) {
-      //? la fonction appelle app.codeLineLoop() avec un délai de 1000 millisecondes (= 1 sec)
-      //? Cela permet d’interpréter chaque ligne de code une par une
-      //? avec un délai d’une seconde entre chaque ligne.
-      // Recall same method (=> make a loop)
-      window.setTimeout(function () {
-        app.codeLineLoop(codeLines, index);
-      }, 1000);
-      //? Si la fin du tableau de lignes de code est atteinte,
-      //? la fonction appelle checkSuccess() après un délai d’1 seconde.
+    if (continueReading) {
+      app.drawBoard();
+      //? Ensuite, elle incrémente l’index pour passer à la ligne suivante.
+      // Increment
+      index++;
+
+      //? Si la fin du tableau de lignes de code n’est pas atteinte,
+      if (index < codeLines.length) {
+        //? la fonction appelle app.codeLineLoop() avec un délai de 1000 ms
+        //? Permet d’interpréter chaque ligne de code une par une
+        //? avec 1 sec d'intervalle
+        window.setTimeout(function () {
+          app.codeLineLoop(codeLines, index);
+        }, 500); //TODO app.delay
+        //? Si la fin du tableau de lignes de code est atteinte,
+        //? la fonction appelle checkSuccess() après un délai d’1 seconde.
+      } else {
+        window.setTimeout(function () {
+          app.checkSuccess();
+        }, 500); //TODO app.delay
+      }
     } else {
-      window.setTimeout(function () {
-        app.checkSuccess();
-      }, 1000);
+      // alert("Game over...");
+      errorMessage += "Game over...";
+      console.log(errorMessage);
+      document.getElementById("errorMessages").textContent += "  Game Over...";
     }
+  },
+
+  interpretLine: function (line) {
+    console.log("interpretLine() appelé");
+    console.log(line);
+
+    let errorMessage = "";
+
+    if (line == "turn left") {
+      app.turnLeft();
+    } else if (line == "turn right") {
+      app.turnRight();
+    } else if (line == "move forward") {
+      let moveOk = app.moveForward();
+      if (!moveOk) {
+        // alert("BRAIN ERROR ! Hors limites ...");
+        errorMessage += "FATAL ERROR ! Hors limites ...";
+        console.log(errorMessage);
+        document.getElementById("errorMessages").textContent += "  FATAL ERROR ! Hors limites ...  ";
+        return false;
+      }
+    } else {
+      // alert('MEGA ERROR ! Commande inconnue "' + line + '"');
+      errorMessage += 'SYNTAX ERROR ! Commande inconnue "' + line + '"';
+      console.log(errorMessage);
+      document.getElementById("errorMessages").textContent += '  SYNTAX ERROR ! Commande inconnue "' + line + '"'   ;
+      return false;
+    }
+
+    return true;
+
   },
 
   //? Cette fonction permet d’interpréter chaque ligne de code d’un tableau
@@ -133,9 +198,6 @@ let codeLines = document.getElementById('userCode').value.split("\n");
       rawDiv.id = "raw" + i;
 
       console.log(rawDiv);
-
-      //TODO
-      // boardElement.append(rawDiv);
 
       // Pour chaque <div> crée y insérer 6 cellules
       // <div class="cell"><div>
