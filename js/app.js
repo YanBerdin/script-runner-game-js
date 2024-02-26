@@ -28,6 +28,8 @@ const app = {
     col: 6,
   },
 
+  delay: 500,
+
   current: null,
 
   init: function () {
@@ -115,13 +117,13 @@ const app = {
     document.getElementById("errorMessages").textContent = "";
 
     //? Lancer la boucle de lecture du tableau de script
-    // La fonction JS `window.setTimeout()` => Définit une fonction à exécuter après un délai en millisecondes
+    // La fonction JS `window.setTimeout()`déclenche un appel async à une fonction ou à une portion de code
     // la fonction anonyme passée en paramètre de window.setTimeout()
-    //  sera exécutée après un délai de 500 millisecondes
+    //  sera exécutée après un délai de {delay} millisecondes
     window.setTimeout(function () {
       app.codeLineLoop(codeLines, 0);
       console.log("timeOut handleLaunchScriptButton() terminé");
-    }, 500); //TODO app.delay
+    }, app.delay);
   },
 
   // => Boucler sur les lignes de script à interpréter
@@ -142,7 +144,7 @@ const app = {
     let currentLine = codeLines[index].trim();
     // transformer en minuscule pour éviter les erreurs de casse
     currentLine = currentLine.toLowerCase();
-    
+
     console.log(currentLine);
 
     let continueReading = app.interpretLine(currentLine);
@@ -154,18 +156,18 @@ const app = {
 
       //? Si la fin du tableau de lignes de code n’est pas atteinte,
       if (index < codeLines.length) {
-        // la fonction appelle app.codeLineLoop() avec un délai de 1000 ms
+        // la fonction appelle app.codeLineLoop() avec un délai de {delay} ms
         // Permet d’interpréter chaque ligne de code une par une
-        // avec 1 sec d'intervalle
+        // avec X sec d'intervalle
         window.setTimeout(function () {
           app.codeLineLoop(codeLines, index);
-        }, 500); //TODO app.delay
+        }, app.delay);
         //? Si la fin du tableau de lignes de code est atteinte,
         //? la fonction appelle checkSuccess() après un délai d’1 seconde.
       } else {
         window.setTimeout(function () {
           app.checkSuccess();
-        }, 500); //TODO app.delay
+        }, app.delay);
       }
     } else {
       // alert("Game over...");
