@@ -1,6 +1,12 @@
 body {
-  padding: 1rem;
+  padding: 0.4rem 1rem;
   font-family: Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 50%;
+  text-align: center;
+  background-color: #f4f2ee;
 }
 
 .label {
@@ -13,13 +19,22 @@ body {
   font-family: monospace;
   background-color: black;
   color: greenyellow;
-  font-size: 1.4rem;
-  width: 100%;
+  font-size: 1.2rem;
+  min-width: 320px;
   height: 10rem;
 }
 
 #launchScript {
   background-color: greenyellow;
+  border: 0;
+  margin: 0.625rem 0;
+  padding: 0.625rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+#reset {
+  background-color: orange;
   border: 0;
   margin: 0.625rem 0;
   padding: 0.625rem;
@@ -79,11 +94,35 @@ body {
   transform: rotate(0deg);
 }
 
-.error {
-  min-width: 70%;
+div.error {
+  /* min-width: 70%; */
   text-align: center;
-  padding: 0.8rem;
+  padding: 0.2rem;
   background-color: pink;
+  min-height: 1.5rem;
+  max-width: 550px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  background-color: grey;
+  color: white;
+  border-radius: 0.6rem;
+  padding: 0.3rem;
+  margin-bottom: 0.8rem;
+  width: 100%;
+}
+
+li {
+  text-align: left;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+@media (min-width: 550px) {
+  #userCode {
+    min-width: 400px;
+  }
 }
 
 /* background-color: papayawhip; */

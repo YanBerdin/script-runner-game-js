@@ -6,26 +6,31 @@
     <title>DecompOser</title>
 
     <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div>
-      <div class="label">Saisissez votre script</div>
+      <div class="label">
+        <h1>Script Runner</h1>
+        <ul>
+          <li>1 instruction par 1 ligne :</li>
+          <li>turn left || turn right || move forward</li>
+        </ul>
+      </div>
       <textarea id="userCode"></textarea>
 
-      <div class="error"> <p id="errorMessages"></p> </div>
+      <div class="error"><p id="errorMessages"></p></div>
       <button id="launchScript">Lancer le script</button>
+      <button id="reset">Reset</button>
     </div>
 
     <div id="board"></div>
-    
-
 
     <script src="js/app.js"></script>
   </body>

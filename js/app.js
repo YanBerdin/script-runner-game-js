@@ -14,6 +14,7 @@
  * @property {number} current.col - The column of the current position.
  * @property {string} direction - The direction of the current position (top, right, bottom, left).
  */
+
 const app = {
   nbRows: 4,
   nbCols: 6,
@@ -45,6 +46,11 @@ const app = {
     document
       .getElementById("launchScript")
       .addEventListener("click", app.handleLaunchScriptButton);
+
+    // au click sur le bouton "Reset" => exécuter `handleLaunchResetButton()
+    document
+      .getElementById("reset")
+      .addEventListener("click", app.handleResetButton);
   },
 
   // Position de la case de départ
@@ -134,6 +140,9 @@ const app = {
 
     // trim() supprime les espaces en début et fin de string
     let currentLine = codeLines[index].trim();
+    // transformer en minuscule pour éviter les erreurs de casse
+    currentLine = currentLine.toLowerCase();
+    
     console.log(currentLine);
 
     let continueReading = app.interpretLine(currentLine);
@@ -162,7 +171,7 @@ const app = {
       // alert("Game over...");
       errorMessage += "Game over...";
       console.log(errorMessage);
-      document.getElementById("errorMessages").textContent += "  Game Over...";
+      document.getElementById("errorMessages").textContent += " Game Over...";
     }
   },
 
@@ -352,6 +361,17 @@ const app = {
         app.direction = "left";
         break;
     }
+  },
+
+  // Réinitialiser le jeu au click sur le bouton "Reset"
+  handleResetButton: function () {
+    console.log("Appel de resetGame()");
+    // Effacer le contenu de la zone de texte
+    document.getElementById("userCode").value = "";
+    // Effacer le message d'erreur
+    document.getElementById("errorMessages").textContent = "";
+    // Réinitialise le jeu
+    app.init();
   },
 };
 
