@@ -53,7 +53,8 @@ const app = {
     };
     app.direction = "right"; // top, right, bottom, left
   },
-  // TODO
+
+  // Lancer l'interprétation du script au click sur le bouton "Lancer le script"
   handleLaunchScriptButton: function () {
     console.log("bouton cliqué");
 
@@ -64,9 +65,8 @@ const app = {
     // avec retour de ligne ("\n") comme séparateur
     // 1 ligne de commande = 1 ligne dans le tableau
     // let codeLines = document.getElementById("userCode").value.split("\n");
-
-    //? Filter les lignes vides (Touche "Entrée" après instruction )
     let userCode = document.getElementById("userCode").value;
+    //? Filter aussi les lignes vides
     let codeLines = userCode.split("\n").filter((line) => line.trim() !== "");
 
     // Vérifier si le tableau de lignes de code est vide
@@ -74,7 +74,8 @@ const app = {
       console.log("Le script est vide. Empêcher la soumission.");
       // alert("Saisir un script avant de lancer !");
       errorMessage += "Saisir un script avant de lancer !";
-      document.getElementById("errorMessages").textContent = " Le script ne peut être vide avant de lancer ! ";
+      document.getElementById("errorMessages").textContent =
+        " Le script ne peut être vide avant de lancer ! ";
       return; // Ne pas soumettre le formulaire
     }
 
@@ -83,14 +84,13 @@ const app = {
     app.drawBoard();
     document.getElementById("errorMessages").textContent = "";
 
-    //? La fonction JS `window.setTimeout()` :
-    //? => Définit une fonction à exécuter après un délai en millisecondes
+    //? La fonction JS `window.setTimeout()` => Définit une fonction à exécuter après un délai en millisecondes
     // la fonction anonyme passée en paramètre de window.setTimeout()
-    //  sera exécutée après un délai de 2000 millisecondes
+    //  sera exécutée après un délai de 500 millisecondes
     window.setTimeout(function () {
       app.codeLineLoop(codeLines, 0);
       console.log("timeOut handleLaunchScriptButton() terminé");
-    }, 500); // => 1secondes //TODO app.delay
+    }, 500); //TODO app.delay
   },
 
   //? La fonction codeLineLoop() prend 2 paramètres :
@@ -98,7 +98,7 @@ const app = {
   codeLineLoop: function (codeLines, index) {
     let errorMessage = "";
 
-    //? La fonction commence par récupérer la ligne de code actuelle
+    //? Récupérer la ligne de code actuelle
     //? à partir du tableau de lignes de code en utilisant l’index fourni.
     // Getting currentLine
     // let currentLine = codeLines[index];
@@ -111,7 +111,7 @@ const app = {
 
     if (continueReading) {
       app.drawBoard();
-      //? Ensuite, elle incrémente l’index pour passer à la ligne suivante.
+      // Ensuite, elle incrémente l’index pour passer à la ligne suivante.
       // Increment
       index++;
 
@@ -154,32 +154,39 @@ const app = {
         // alert("BRAIN ERROR ! Hors limites ...");
         errorMessage += "FATAL ERROR ! Hors limites ...";
         console.log(errorMessage);
-        document.getElementById("errorMessages").textContent += "  FATAL ERROR ! Hors limites ...  ";
+        document.getElementById("errorMessages").textContent +=
+          "  FATAL ERROR ! Hors limites ...  ";
         return false;
       }
     } else {
       // alert('MEGA ERROR ! Commande inconnue "' + line + '"');
       errorMessage += 'SYNTAX ERROR ! Commande inconnue "' + line + '"';
       console.log(errorMessage);
-      document.getElementById("errorMessages").textContent += '  SYNTAX ERROR ! Commande inconnue "' + line + '"'   ;
+      document.getElementById("errorMessages").textContent +=
+        '  SYNTAX ERROR ! Commande inconnue "' + line + '"';
       return false;
     }
 
     return true;
-
   },
 
   //? Cette fonction permet d’interpréter chaque ligne de code d’un tableau
   //? une par une avec un délai d’une seconde entre chaque ligne
   //? et d’appeler checkSuccess() à la fin .
 
+  // Display if the game is won or not
   checkSuccess: function () {
-    // TODO display if the game is won or not
+    console.log("checkSuccess() appelé");
+    if (app.current.row == app.end.row && app.current.col == app.end.col) {
+      // alert("Gagné !");
+      document.getElementById("errorMessages").textContent = "  Gagné !  ";
+      console.log("Gagné !");
+    }
   },
 
+  // Assemblage de la grille de jeu
   drawBoard: function () {
     console.log("Hello drawboard()");
-
     // Récupérer <div> déstinée à afficher le Board
     const boardElement = document.querySelector("#board");
     // Efface le contenu précédent
@@ -229,6 +236,7 @@ const app = {
     }
   },
 
+  // Avancer en fonction de l'orientaton du curseur
   moveForward: function () {
     // case départ divStart
     switch (app.direction) {
@@ -283,6 +291,8 @@ const app = {
     }
     return true;
   },
+
+  // Tourner à gauche en fonction de l'orientation curseur
   turnLeft: function () {
     switch (app.direction) {
       case "left":
@@ -299,6 +309,8 @@ const app = {
         break;
     }
   },
+
+  // Tourner à droite en fonction de l'orientation du curseur
   turnRight: function () {
     switch (app.direction) {
       case "left":
