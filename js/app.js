@@ -163,7 +163,7 @@ const app = {
           app.codeLineLoop(codeLines, index);
         }, app.delay);
         //? Si la fin du tableau de lignes de code est atteinte,
-        //? la fonction appelle checkSuccess() après un délai d’1 seconde.
+        //? la fonction appelle checkSuccess() après le délai {delay}.
       } else {
         window.setTimeout(function () {
           app.checkSuccess();

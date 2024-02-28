@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Script Runner est un jeu de programmation qui permet de s'initier à la programmation en s'amusant."
+    />
     <title>Script Runner</title>
 
     <link rel="stylesheet" href="css/reset.css" />
@@ -19,11 +23,13 @@
       <div class="label">
         <h1>Script Runner</h1>
         <ul>
-          <li>1 instruction par 1 ligne :</li>
-          <li>turn left || turn right || move forward</li>
+          <li>Utilisez 1 instruction par ligne :</li>
+          <li>
+            <label for="userCode">turn left || turn right || move forward</label>
+            <textarea id="userCode" name="userCode"></textarea>
+          </li>
         </ul>
       </div>
-      <textarea id="userCode"></textarea>
 
       <div class="error"><p id="errorMessages"></p></div>
       <button id="launchScript">Lancer le script</button>
