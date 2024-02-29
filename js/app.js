@@ -33,7 +33,7 @@ const app = {
   current: null,
 
   init: function () {
-    console.log("init");
+    // console.log("init");
 
     app.randomStart();
     app.randomEnd();
@@ -84,7 +84,7 @@ const app = {
 
   // Récupération et filtrage du script au click sur le bouton "Lancer le script"
   handleLaunchScriptButton: function () {
-    console.log("bouton cliqué");
+    // console.log("bouton cliqué");
 
     let errorMessage = "";
 
@@ -101,7 +101,7 @@ const app = {
 
     // Vérifier si un script a été saisi
     if (codeLines.length === 0) {
-      console.log("Le script est vide. Empêcher la soumission.");
+      // console.log("Le script est vide. Empêcher la soumission.");
       // alert("Saisir un script avant de lancer !");
 
       // Afficher message d'erreur
@@ -122,7 +122,7 @@ const app = {
     //  sera exécutée après un délai de {delay} millisecondes
     window.setTimeout(function () {
       app.codeLineLoop(codeLines, 0);
-      console.log("timeOut handleLaunchScriptButton() terminé");
+      // console.log("timeOut handleLaunchScriptButton() terminé");
     }, app.delay);
   },
 
@@ -145,7 +145,7 @@ const app = {
     // transformer en minuscule pour éviter les erreurs de casse
     currentLine = currentLine.toLowerCase();
 
-    console.log(currentLine);
+    // console.log(currentLine);
 
     let continueReading = app.interpretLine(currentLine);
 
@@ -172,15 +172,15 @@ const app = {
     } else {
       // alert("Game over...");
       errorMessage += "Game over...";
-      console.log(errorMessage);
+      // console.log(errorMessage);
       document.getElementById("errorMessages").textContent += " Game Over...";
     }
   },
 
   // Interpréter une ligne de script
   interpretLine: function (line) {
-    console.log("interpretLine() appelé");
-    console.log(line);
+    // console.log("interpretLine() appelé");
+    // console.log(line);
 
     let errorMessage = "";
 
@@ -193,7 +193,7 @@ const app = {
       if (!moveOk) {
         // alert("BRAIN ERROR ! Hors limites ...");
         errorMessage += "FATAL ERROR ! Hors limites ...";
-        console.log(errorMessage);
+        // console.log(errorMessage);
         document.getElementById("errorMessages").textContent +=
           "  FATAL ERROR ! Hors limites ...  ";
         return false;
@@ -212,7 +212,7 @@ const app = {
 
   // Vérifier si la partie est gagnée
   checkSuccess: function () {
-    console.log("checkSuccess() appelé");
+    // console.log("checkSuccess() appelé");
     if (app.current.row == app.end.row && app.current.col == app.end.col) {
       // alert("Gagné !");
       document.getElementById("errorMessages").textContent = "  Gagné !  ";
@@ -222,7 +222,7 @@ const app = {
 
   // Assemblage de la grille de jeu
   drawBoard: function () {
-    console.log("Hello drawboard()");
+    // console.log("Hello drawboard()");
     // Récupérer <div> déstinée à afficher le Board
     const boardElement = document.querySelector("#board");
     // Efface le contenu précédent
@@ -240,7 +240,7 @@ const app = {
       // Attriubuer id raw1 raw2 raw3 raw4
       rawDiv.id = "raw" + i;
 
-      console.log(rawDiv);
+      // console.log(rawDiv);
 
       // Pour chaque <div> crée y insérer 6 cellules
       // <div class="cell"><div>
@@ -293,7 +293,7 @@ const app = {
         app.current.row++;
         break;
       default:
-        console.log("direction unknown : " + app.direction);
+      // console.log("direction unknown : " + app.direction);
     }
 
     // Hors limite => return false
@@ -301,7 +301,7 @@ const app = {
     if (app.current.row < 1) {
       // Ligne réinitialisée à 1
       app.current.row = 1;
-      console.log("out 1");
+      // console.log("out 1");
       return false;
     }
     // derniere ligne (bordure inférieure)
@@ -309,21 +309,21 @@ const app = {
       // ligne réinitialisée au nbr de lignes maximum valide
       // positionne le curseur à la limite autorisée
       app.current.row = app.nbRows;
-      console.log("out 2");
+      // console.log("out 2");
       return false;
     }
     // 1ere colonne (bordure gauche)
     else if (app.current.col < 1) {
       // Colonne réinitialisée à 1
       app.current.col = 1;
-      console.log("out 3");
+      // console.log("out 3");
       return false;
     }
     // Derniere colonne (bordure droite)
     else if (app.current.col > app.nbCols) {
       // Colonne réinitialisée au nbr de colonnes maximum valide
       app.current.col = app.nbCols;
-      console.log("out 4");
+      // console.log("out 4");
       return false;
     }
     return true;
@@ -367,7 +367,7 @@ const app = {
 
   // Réinitialiser le jeu au click sur le bouton "Reset"
   handleResetButton: function () {
-    console.log("Appel de resetGame()");
+    // console.log("Appel de resetGame()");
     // Effacer le contenu de la zone de texte
     document.getElementById("userCode").value = "";
     // Effacer le message d'erreur
