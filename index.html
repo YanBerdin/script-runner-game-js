@@ -2,6 +2,9 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' https://use.fontawesome.com; font-src 'self' https://use.fontawesome.com; img-src 'self';" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -11,12 +14,22 @@
 
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <!-- Font Awesome 
+    L'attribut [`integrity`] dans le contexte d'un élément HTML est utilisé pour assurer l'intégrité des ressources externes, comme les scripts ou les feuilles de style. Cet attribut fait partie de la spécification Subresource Integrity (SRI), qui permet aux navigateurs de vérifier que les fichiers récupérés n'ont pas été modifiés de manière malveillante.
+
+    La valeur de l'attribut [`integrity`] est un hash cryptographique de la ressource externe (hash SHA-384). Lorsque le navigateur télécharge la ressource, il calcule son propre hash et le compare à celui fourni dans l'attribut [`integrity`]. Si les deux hashes correspondent, cela signifie que la ressource n'a pas été altérée et peut être utilisée en toute sécurité. Sinon, le navigateur rejette la ressource, protégeant ainsi l'utilisateur contre les attaques potentielles.
+    https://docs.fontawesome.com/apis/graphql/objects#sri
+    -->
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
       crossorigin="anonymous"
     />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.4/purify.min.js"
+      defer
+    ></script>
   </head>
   <body>
     <div>
@@ -25,7 +38,9 @@
         <ul>
           <li>Utilisez 1 instruction par ligne :</li>
           <li>
-            <label for="userCode">turn left || turn right || move forward</label>
+            <label for="userCode"
+              >turn left || turn right || move forward</label
+            >
             <textarea id="userCode" name="userCode"></textarea>
           </li>
         </ul>

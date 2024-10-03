@@ -60,8 +60,8 @@ const app = {
     app.start.row = 1;
     app.start.col = 1;
     // Position aléatoire
-    // app.start.row = Math.floor(Math.random() * Math.floor(app.nbRows)) + 1;
-    // app.start.col = Math.floor(Math.random() * Math.floor(app.nbCols)) + 1;
+    app.start.row = Math.floor(Math.random() * Math.floor(app.nbRows)) + 1;
+    app.start.col = Math.floor(Math.random() * Math.floor(app.nbCols)) + 1;
   },
 
   // Position de la case de fin
@@ -69,8 +69,8 @@ const app = {
     app.end.row = 4;
     app.end.col = 6;
     // Position aléatoire
-    // app.end.row = Math.floor(Math.random() * Math.floor(app.nbRows)) + 1;
-    // app.end.col = Math.floor(Math.random() * Math.floor(app.nbCols)) + 1;
+    app.end.row = Math.floor(Math.random() * Math.floor(app.nbRows)) + 1;
+    app.end.col = Math.floor(Math.random() * Math.floor(app.nbCols)) + 1;
   },
 
   // Initialisation du jeu
@@ -83,6 +83,10 @@ const app = {
   },
 
   // Récupération et filtrage du script au click sur le bouton "Lancer le script"
+  sanitizeInput: function (input) {
+    return DOMPurify.sanitize(input);
+  },
+
   handleLaunchScriptButton: function () {
     // console.log("bouton cliqué");
 
@@ -94,6 +98,9 @@ const app = {
     // 1 ligne de commande = 1 ligne dans le tableau
     // let codeLines = document.getElementById("userCode").value.split("\n");
     let userCode = document.getElementById("userCode").value;
+
+    // Assainir la saisie utilisateur
+    userCode = app.sanitizeInput(userCode);
 
     // Déclarer un array de lignes de script
     // Filter pour éliminer les lignes vides
