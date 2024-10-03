@@ -1,6 +1,6 @@
 # `Script Runner`
 
-## Descriptif de l'application
+## `Descriptif de l'application`
 
 **Script Runner** est un jeu de programmation qui permet aux utilisateurs de s'initier à la programmation en s'amusant.  Le but du jeu est de déplacer un curseur rouge sur une grille, de la case "Start" à la case "End", en utilisant ces instructions. L'application inclut également une fonctionnalité pour positionner aléatoirement le point de départ et le point d'arrivée sur la grille.
 
@@ -12,14 +12,14 @@
 
 ![Slide](docs/slide-decomposer.png)
 
-### Technologies utilisées
+### `Technologies utilisées`
 
 - **HTML** : Structure de base de l'application.
 - **CSS** : Mise en forme et style de l'application, y compris un fichier de réinitialisation CSS pour une apparence cohérente sur tous les navigateurs.
 - **JavaScript** : Logique de l'application, y compris l'interprétation des instructions, la gestion des événements et la manipulation du DOM.
 - **DOMPurify** : Bibliothèque utilisée pour assainir les entrées utilisateur et prévenir les attaques XSS.
 
-## Défis et Solutions Apportées
+## `Défis et Solutions Apportées`
 
 1. **Interprétation des Instructions** :
    - **Défi** : Créer un interpréteur pour un langage simple avec seulement trois instructions.
@@ -41,7 +41,7 @@
    - **Défi** : Implémenter une fonctionnalité pour positionner aléatoirement le point de départ et le point d'arrivée sur la grille.
    - **Solution** : Décommenter et activer le code existant pour générer des positions aléatoires.
 
-## Mesures de Sécurité
+## `Mesures de Sécurité`
 
 1. **Validation des Entrées** :
    - Toutes les entrées utilisateur sont validées pour s'assurer qu'elles correspondent aux instructions attendues ("Turn Left", "Turn Right", "Move Forward").
@@ -54,7 +54,7 @@
    - **X-Content-Type-Options** : Pour empêcher le navigateur d'interpréter les fichiers comme un autre type MIME.
    - **Strict-Transport-Security (HSTS)** : Pour forcer les connexions HTTPS.
 
-## Instructions
+## `Instructions`
 
 1. Clonez le dépôt.
 2. Ouvrez le fichier `index.html` dans votre navigateur.
